@@ -9,7 +9,7 @@ jobs:
   version: 2deb76c6a97ba38bc260cf629efa0f765052f686
   fingerprint: 2deb76c6a97ba38bc260cf629efa0f765052f686
   sha1: e41a630891f3f4756436b8ca894c34cdd3bc3206
-- name: user_add
+- name: director_user_add
   version: 154f22ec3c0212454c862c7c4c7b603cd4a2c55b
   fingerprint: 154f22ec3c0212454c862c7c4c7b603cd4a2c55b
   sha1: 74bcb16036f27ccc5351a93effbbb3b0b37aff90
@@ -19,5 +19,5 @@ license:
   sha1: 4e3da22aec5530269a747ece37d2c30d8f2c838d
 commit_hash: 77fb6568
 uncommitted_changes: true
-name: os-conf
+name: director-os-conf
 version: '5'

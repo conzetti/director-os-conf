@@ -3,7 +3,7 @@
 Enables configuration of a typical Linux OS:
 
 - customize login banner text (job: `login_banner`)
-- add UNIX users to VM (job: `user_add`)
+- add UNIX users to VM (job: `director_user_add`)
 - add system wide CA certificates (job: `ca_certs`)
 - configure resolv.conf search domain (job: `resolv`)
 - change TCP keepalive kernel args (job: `tcp_keepalive`)
@@ -13,13 +13,22 @@ See https://github.com/cloudfoundry-incubator/windows-utilities-release for Wind
 
 For a description of these and other functions, see `jobs/`.
 
+## Building a release
+
+```console
+bosh create-release \
+  --name director-os-conf \
+  --version 21 \
+  --tarball /tmp/director-os-conf-release-21.0.0.tgz
+```
+
 ## Usage
 
 Include the release:
 
 ```yaml
 releases:
-  name: os-conf
+  name: director-os-conf
   version: latest
 ```
 
@@ -29,17 +38,17 @@ In this example, we use BOSH's [Runtime Config](https://bosh.io/docs/runtime-con
 
 ```yaml
 addons:
-  - name: os-configuration
+  - name: director-os-configuration
     jobs:
     - name: login_banner
-      release: os-conf
+      release: director-os-conf
       properties:
         login_banner:
           text: |
             Authorized Use Only.
             Unauthorized use will be prosecuted to the fullest extent of the law.
-    - name: user_add
-      release: os-conf
+    - name: director_user_add
+      release: director-os-conf
       properties:
         persistent_homes: true
         users:
@@ -56,14 +65,14 @@ instance_groups:
 - name: network-infrastructure
   jobs:
   - name: tcp_keepalive
-    release: os-conf
+    release: director-os-conf
     properties:
       tcp_keepalive:
         time:     120
         interval:  30
         probes:     8
   - name: resolv
-    release: os-conf
+    release: director-os-conf
     properties:
       search: pivotal.io
 ```

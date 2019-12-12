@@ -80,6 +80,6 @@ var _ = Describe("CACerts", func() {
 func checkForCaCert(cert string) {
 	escapedCert := strings.Replace(cert, "\n", "\\n", -1)
 	escapedCert = strings.Replace(escapedCert, "+", "\\+", -1)
-	session := boshSSH("os-conf/0", fmt.Sprintf(`sudo grep -Pzo "%s" /etc/ssl/certs/ca-certificates.crt`, escapedCert))
+	session := boshSSH("director-os-conf/0", fmt.Sprintf(`sudo grep -Pzo "%s" /etc/ssl/certs/ca-certificates.crt`, escapedCert))
 	Eventually(session, 30*time.Second).Should(gexec.Exit(0))
 }

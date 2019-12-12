@@ -1,8 +1,8 @@
 ---
 groups:
-- name: os-conf-release
+- name: director-os-conf-release
   jobs:
-  - os-conf-release-acceptance-tests
+  - director-os-conf-release-acceptance-tests
   - finalize-release
 
 resource_types:
@@ -17,16 +17,16 @@ resource_types:
     repository: dpb587/bosh-release-resource
 
 resources:
-- name: os-conf-release
+- name: director-os-conf-release
   type: git
   source:
-    uri: https://github.com/cloudfoundry/os-conf-release.git
+    uri: https://github.com/cloudfoundry/director-os-conf-release.git
     branch: master
 
 - name: bbl-state
   type: bbl-state-resource
   source:
-    bucket: os-conf-release-bbl-state
+    bucket: director-os-conf-release-bbl-state
     iaas: gcp
     gcp_region: us-west1
     gcp_service_account_key: ((bbl_gcp_service_account_key))
@@ -41,29 +41,29 @@ resources:
   source:
     name: bosh-google-kvm-ubuntu-xenial-go_agent
 
-- name: os-conf-bosh-release
+- name: director-os-conf-bosh-release
   type: bosh-release-resource
   source:
-    uri: git@github.com:cloudfoundry/os-conf-release
+    uri: git@github.com:cloudfoundry/director-os-conf-release
     branch: master
-    private_config: ((os-conf-private-config))
-    private_key: ((os-conf-private-key))
+    private_config: ((director-os-conf-private-config))
+    private_key: ((director-os-conf-private-key))
 
-- name: os-conf-version
+- name: director-os-conf-version
   type: semver
   source:
     driver: s3
-    bucket: os-conf-version
+    bucket: director-os-conf-version
     key: current-version
     initial_version: 20.0.0
-    access_key_id: ((os-conf-version-access-key-id))
-    secret_access_key: ((os-conf-version-secret-access-key))
+    access_key_id: ((director-os-conf-version-access-key-id))
+    secret_access_key: ((director-os-conf-version-secret-access-key))
 
 jobs:
-- name: os-conf-release-acceptance-tests
+- name: director-os-conf-release-acceptance-tests
   plan:
   - in_parallel:
-    - get: os-conf-release
+    - get: director-os-conf-release
       trigger: true
     - get: ubuntu-trusty-stemcell
       trigger: true
@@ -73,18 +73,18 @@ jobs:
     - put: bbl-state
       params:
         command: up
-    - task: run-ubuntu-trusty-os-conf-acceptance-tests
-      file: os-conf-release/ci/tasks/run-acceptance-tests.yml
+    - task: run-ubuntu-trusty-director-os-conf-acceptance-tests
+      file: director-os-conf-release/ci/tasks/run-acceptance-tests.yml
       params:
         BOSH_STEMCELL: ubuntu-trusty
-        BOSH_DEPLOYMENT: os-conf-trusty
+        BOSH_DEPLOYMENT: director-os-conf-trusty
       input_mapping:
         stemcell: ubuntu-trusty-stemcell
-    - task: run-ubuntu-xenial-os-conf-acceptance-tests
-      file: os-conf-release/ci/tasks/run-acceptance-tests.yml
+    - task: run-ubuntu-xenial-director-os-conf-acceptance-tests
+      file: director-os-conf-release/ci/tasks/run-acceptance-tests.yml
       params:
         BOSH_STEMCELL: ubuntu-xenial
-        BOSH_DEPLOYMENT: os-conf-xenial
+        BOSH_DEPLOYMENT: director-os-conf-xenial
       input_mapping:
         stemcell: ubuntu-xenial-stemcell
     ensure:
@@ -96,16 +96,16 @@ jobs:
 - name: finalize-release
   plan:
     - in_parallel:
-      - get: os-conf-release
-        passed: [os-conf-release-acceptance-tests]
-      - get: os-conf-version
-    - put: os-conf-bosh-release
+      - get: director-os-conf-release
+        passed: [director-os-conf-release-acceptance-tests]
+      - get: director-os-conf-version
+    - put: director-os-conf-bosh-release
       params:
-        repository: os-conf-release
-        version: os-conf-version/version
+        repository: director-os-conf-release
+        version: director-os-conf-version/version
         author_name: CF BOSH
         author_email: pivotal-sf-bosh@pivotal.io
         rebase: true
-    - put: os-conf-version
+    - put: director-os-conf-version
       params:
         bump: major

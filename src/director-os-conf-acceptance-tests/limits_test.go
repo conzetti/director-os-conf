@@ -18,31 +18,31 @@ var _ = Describe("Limits", func() {
 
 	Context("when limits are configured", func() {
 		It("sets the limits for the monit process", func() {
-			session := boshSSH("os-conf/0", "pid=$(ps -e | grep monit | awk '{print $1}'); cat /proc/$pid/limits | grep 'Max open files' | awk '{print $4}'")
+			session := boshSSH("director-os-conf/0", "pid=$(ps -e | grep monit | awk '{print $1}'); cat /proc/$pid/limits | grep 'Max open files' | awk '{print $4}'")
 			Eventually(session, 30*time.Second).Should(gbytes.Say("60000"))
 			Eventually(session, 30*time.Second).Should(gexec.Exit(0))
 
-			session = boshSSH("os-conf/0", "pid=$(ps -e | grep monit | awk '{print $1}'); cat /proc/$pid/limits | grep 'Max open files' | awk '{print $5}'")
+			session = boshSSH("director-os-conf/0", "pid=$(ps -e | grep monit | awk '{print $1}'); cat /proc/$pid/limits | grep 'Max open files' | awk '{print $5}'")
 			Eventually(session, 30*time.Second).Should(gbytes.Say("100000"))
 			Eventually(session, 30*time.Second).Should(gexec.Exit(0))
 		})
 
 		It("sets the limits for the parent process", func() {
-			session := boshSSH("os-conf/0", "pid=$(ps -e | grep monit | awk '{print $1}'); pid_parent=$(ps -o ppid:1= -p $pid); cat /proc/$pid_parent/limits | grep 'Max open files' | awk '{print $4}'")
+			session := boshSSH("director-os-conf/0", "pid=$(ps -e | grep monit | awk '{print $1}'); pid_parent=$(ps -o ppid:1= -p $pid); cat /proc/$pid_parent/limits | grep 'Max open files' | awk '{print $4}'")
 			Eventually(session, 30*time.Second).Should(gbytes.Say("60000"))
 			Eventually(session, 30*time.Second).Should(gexec.Exit(0))
 
-			session = boshSSH("os-conf/0", "pid=$(ps -e | grep monit | awk '{print $1}'); pid_parent=$(ps -o ppid:1= -p $pid); cat /proc/$pid_parent/limits | grep 'Max open files' | awk '{print $5}'")
+			session = boshSSH("director-os-conf/0", "pid=$(ps -e | grep monit | awk '{print $1}'); pid_parent=$(ps -o ppid:1= -p $pid); cat /proc/$pid_parent/limits | grep 'Max open files' | awk '{print $5}'")
 			Eventually(session, 30*time.Second).Should(gbytes.Say("100000"))
 			Eventually(session, 30*time.Second).Should(gexec.Exit(0))
 		})
 
 		It("sets the limits for the systemd process", func() {
-			session := boshSSH("os-conf/0", "systemctl show | grep 'DefaultLimitNOFILESoft=' | awk -F= '{print $2}'")
+			session := boshSSH("director-os-conf/0", "systemctl show | grep 'DefaultLimitNOFILESoft=' | awk -F= '{print $2}'")
 			Eventually(session, 30*time.Second).Should(gbytes.Say("60000"))
 			Eventually(session, 30*time.Second).Should(gexec.Exit(0))
 
-			session = boshSSH("os-conf/0", "systemctl show | grep 'DefaultLimitNOFILE=' | awk -F= '{print $2}'")
+			session = boshSSH("director-os-conf/0", "systemctl show | grep 'DefaultLimitNOFILE=' | awk -F= '{print $2}'")
 			Eventually(session, 30*time.Second).Should(gbytes.Say("100000"))
 			Eventually(session, 30*time.Second).Should(gexec.Exit(0))
 		})

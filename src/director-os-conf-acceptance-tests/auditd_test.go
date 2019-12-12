@@ -10,7 +10,7 @@ import (
 
 var _ = Describe("AuditD", func() {
 	It("allows users to set auditd rules", func() {
-		session := boshSSH("os-conf/0", "sudo grep auditd_test_rule /etc/audit/rules.d/audit.rules")
+		session := boshSSH("director-os-conf/0", "sudo grep auditd_test_rule /etc/audit/rules.d/audit.rules")
 		Eventually(session, 30*time.Second).Should(gexec.Exit(0))
 	})
 })

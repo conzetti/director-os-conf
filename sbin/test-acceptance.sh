@@ -5,7 +5,7 @@ set -e
 BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
 export BOSH_BINARY_PATH=${BOSH_BINARY_PATH:-/usr/local/bin/bosh}
-export BOSH_DEPLOYMENT=${BOSH_DEPLOYMENT:-os-conf-xenial}
+export BOSH_DEPLOYMENT=${BOSH_DEPLOYMENT:-director-os-conf-xenial}
 export BOSH_STEMCELL=${BOSH_STEMCELL:-ubuntu-xenial}
 
 if [ -z ${BBL_STATE_DIR} ]; then
@@ -26,7 +26,7 @@ bosh create-release --dir ${BASEDIR} --timestamp-version --tarball=release.tgz -
 bosh upload-release release.tgz
 
 
-pushd "${BASEDIR}/src/os-conf-acceptance-tests"
+pushd "${BASEDIR}/src/director-os-conf-acceptance-tests"
   go install ./vendor/github.com/onsi/ginkgo/ginkgo
   ginkgo -v
 popd

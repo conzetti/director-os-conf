@@ -8,7 +8,7 @@ image_resource:
 
 inputs:
 - name: stemcell
-- name: os-conf-release
+- name: director-os-conf-release
 - name: bbl-state
 
 params:
@@ -16,4 +16,4 @@ params:
   BOSH_DEPLOYMENT: ~
 
 run:
-  path: os-conf-release/ci/tasks/run-acceptance-tests.sh
+  path: director-os-conf-release/ci/tasks/run-acceptance-tests.sh
