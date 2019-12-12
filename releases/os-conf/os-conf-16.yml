@@ -1,4 +1,4 @@
-name: os-conf
+name: director-os-conf
 version: "16"
 commit_hash: 8edfa51
 uncommitted_changes: false
@@ -47,7 +47,7 @@ jobs:
   version: f8062f5cb07cb29df43b007948ae05515e69fa2b
   fingerprint: f8062f5cb07cb29df43b007948ae05515e69fa2b
   sha1: bba16070c0dc722e3eb7c1aec3dc558d656348fa
-- name: user_add
+- name: director_user_add
   version: 6260bac00cd4ceb78e9bfb6fd6f25fe2b8d4bbd7
   fingerprint: 6260bac00cd4ceb78e9bfb6fd6f25fe2b8d4bbd7
   sha1: f966ba67d323a78b1fdb4475f9598e22fe53b4db

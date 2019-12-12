@@ -11,7 +11,7 @@ import (
 
 var _ = Describe("PreStartScript", func() {
 	It("allows users to execute an arbitrary script in pre-start", func() {
-		session := boshSSH("os-conf/0", "sudo cat /var/vcap/sys/log/pre-start-script/stdout.log")
+		session := boshSSH("director-os-conf/0", "sudo cat /var/vcap/sys/log/pre-start-script/stdout.log")
 		Eventually(session, 30*time.Second).Should(gbytes.Say("Arbitrary pre start script executed."))
 		Eventually(session, 30*time.Second).Should(gexec.Exit(0))
 	})

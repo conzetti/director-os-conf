@@ -2,17 +2,17 @@
 name: ((deployment_name))
 
 instance_groups:
-- name: os-conf
+- name: director-os-conf
   azs: [z1]
   instances: 1
   jobs:
   - name: auditd
-    release: os-conf
+    release: director-os-conf
     properties:
       rules:
       - "-w /auditd_test_rule -p warx -k auditd_test"
   - name: ca_certs
-    release: os-conf
+    release: director-os-conf
     properties:
       certs: |
         -----BEGIN CERTIFICATE-----
@@ -74,64 +74,64 @@ instance_groups:
         mnvqfMDS/A8=
         -----END CERTIFICATE-----
   - name: limits_not_recommended
-    release: os-conf
+    release: director-os-conf
     properties:
       limits_conf: |
         * soft nofile 60000
         * hard nofile 100000
   - name: limits
-    release: os-conf
+    release: director-os-conf
     properties:
       nofile:
         soft: 60000
         hard: 100000
   - name: login_banner
-    release: os-conf
+    release: director-os-conf
     properties:
       login_banner:
         text: "Jim was here."
   - name: modprobe
-    release: os-conf
+    release: director-os-conf
     properties:
       modules:
       - aufs
   - name: monit
-    release: os-conf
+    release: director-os-conf
     properties:
       reload_after_start: true
   - name: ntpdate
-    release: os-conf
+    release: director-os-conf
     properties:
       unprivileged_port: true
   - name: pre-start-script
-    release: os-conf
+    release: director-os-conf
     properties:
       script: |-
         #!/bin/bash
         echo "Arbitrary pre start script executed." > /var/vcap/sys/log/pre-start-script/stdout.log
   - name: resolv
-    release: os-conf
+    release: director-os-conf
     properties:
       search: pivotal.io
       options:
       - rotate
       - timeout:1
   - name: sysctl
-    release: os-conf
+    release: director-os-conf
     properties:
       sysctl:
       - vm.swappiness=10
       - net.core.somaxconn=1024
       sysctl_conf_prefix: 72
   - name: tcp_keepalive
-    release: os-conf
+    release: director-os-conf
     properties:
       tcp_keepalive:
         time: 10
         interval: 11
         probes: 12
-  - name: user_add
-    release: os-conf
+  - name: director_user_add
+    release: director-os-conf
     properties:
       users:
       - name: test-user-password
@@ -157,7 +157,7 @@ instance_groups:
   instances: 0
   jobs:
   - name: disable_agent
-    release: os-conf
+    release: director-os-conf
     properties:
       wait_before_killing: 10
   vm_type: default
@@ -166,7 +166,7 @@ instance_groups:
   - name: default
 
 releases:
-- name: os-conf
+- name: director-os-conf
   version: latest
 
 update:

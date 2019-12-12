@@ -2,7 +2,7 @@
 
 set -exuo pipefail
 
-export GOPATH="${PWD}/os-conf-release"
+export GOPATH="${PWD}/director-os-conf-release"
 export PATH="${GOPATH}/bin:$PATH"
 
 apt-get update
@@ -23,12 +23,12 @@ curl -fSL https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-${BOSH_VERSION}-l
   && chmod +x /usr/bin/bosh
 
 bosh upload-stemcell ${PWD}/stemcell/*.tgz
-bosh create-release --dir ${PWD}/os-conf-release --timestamp-version --tarball=release.tgz
+bosh create-release --dir ${PWD}/director-os-conf-release --timestamp-version --tarball=release.tgz
 bosh upload-release release.tgz
 
 export BOSH_BINARY_PATH=/usr/bin/bosh
 
-pushd "${PWD}/os-conf-release/src/os-conf-acceptance-tests"
+pushd "${PWD}/director-os-conf-release/src/director-os-conf-acceptance-tests"
   go install ./vendor/github.com/onsi/ginkgo/ginkgo
   ginkgo -v
 popd

@@ -11,7 +11,7 @@ import (
 
 var _ = Describe("LoginBanner", func() {
 	It("sets the login banner", func() {
-		session := boshSSH("os-conf/0", "exit 0")
+		session := boshSSH("director-os-conf/0", "exit 0")
 		Eventually(session, 30*time.Second).Should(gbytes.Say("Jim was here."))
 		Eventually(session, 30*time.Second).Should(gexec.Exit(0))
 	})

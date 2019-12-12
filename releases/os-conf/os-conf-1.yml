@@ -11,5 +11,5 @@ license:
   sha1: 4e3da22aec5530269a747ece37d2c30d8f2c838d
 commit_hash: 4c6e6cb0
 uncommitted_changes: true
-name: os-conf
+name: director-os-conf
 version: '1'

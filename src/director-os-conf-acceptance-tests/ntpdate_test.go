@@ -17,7 +17,7 @@ var _ = Describe("NTPDate", func() {
 	})
 
 	It("allows using an unprivileged_port", func() {
-		session := boshSSH("os-conf/0", "sudo cat /var/vcap/bosh/bin/sync-time")
+		session := boshSSH("director-os-conf/0", "sudo cat /var/vcap/bosh/bin/sync-time")
 		Eventually(session, 30*time.Second).Should(gbytes.Say("/usr/sbin/ntpdate -u"))
 		Eventually(session, 30*time.Second).Should(gexec.Exit(0))
 	})

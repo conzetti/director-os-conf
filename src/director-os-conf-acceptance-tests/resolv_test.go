@@ -11,7 +11,7 @@ import (
 
 var _ = Describe("Resolv", func() {
 	It("allows users to set options and serach domain", func() {
-		session := boshSSH("os-conf/0", "sudo cat /etc/resolv.conf")
+		session := boshSSH("director-os-conf/0", "sudo cat /etc/resolv.conf")
 		Eventually(session, 30*time.Second).Should(gbytes.Say("search pivotal.io"))
 		Eventually(session, 30*time.Second).Should(gbytes.Say("options rotate"))
 		Eventually(session, 30*time.Second).Should(gbytes.Say("options timeout:1"))
