@@ -7,8 +7,23 @@ templates:
 packages: []
 
 properties:
+  immutable:
+    description: |
+      Type: Bool
+      Controls immutability of auditd rules file
+    default: false
   rules:
-    description: Array of auditd rules to add. Note that this job does not update rules after rules are installed for the first time. Removal of a job does not remove rules. For new rules to be applied you must force VM recreation. This behaviour is due to auditd going into its immutable state.
+    description: |
+      Type: List
+      Auditd rules.
+      NOTE: Removal of a job does not remove rules.
+            Additionally, if immutability is enabled
+            the VM will need to be recreated to update rules.
     default: []
     example:
     - "-a always,exit -F perm=x -F auid>=500 -F auid!=4294967295 -F path=/usr/bin/who -k privileged"
+  rules_path:
+    description: |
+      Type: String
+      Path to auditd rules file
+    default: /etc/audit/rules.d/audit.rules
