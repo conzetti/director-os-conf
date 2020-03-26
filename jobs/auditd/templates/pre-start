@@ -1,16 +1,24 @@
 #!/bin/bash
 
-if ! grep -e '^-e 2$' /etc/audit/rules.d/audit.rules -q; then
-  echo '
+if ! [[ -f <%= p("rules_path") %> ]]; then
+  echo "ERROR: <%= p("rules_path") %> doesn't exist."
+  exit 1
+fi
+
+if ! grep -e '^-e 2$' <%= p("rules_path") %> -q; then
+  cat <<EOF> <%= p("rules_path") %>
 # Custom rules; added by auditd job (director-os-conf-release)
-<% p("rules").each do |rule| %>
+<% p("rules").each do |rule| -%>
 <%= rule %>
 <% end %>
-' >> /etc/audit/rules.d/audit.rules
-
-  echo '
-# Make audit rules immutable; added by auditd job (director-os-conf-release)
--e 2' >> /etc/audit/rules.d/audit.rules
-
-  service auditd restart
+EOF
 fi
+
+<% if p("immutable") %>
+cat <<EOF>> <%= p("rules_path") %>
+# Make audit rules immutable.
+-e 2
+EOF
+<% end %>
+
+systemctl restart auditd
