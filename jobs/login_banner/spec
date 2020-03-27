@@ -1,9 +1,0 @@
----
-name: login_banner
-
-templates:
-  pre-start.sh.erb: bin/pre-start
-
-properties:
-  login_banner.text:
-    description: Login banner text

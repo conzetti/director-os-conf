@@ -2,7 +2,7 @@
 
 Enables configuration of a typical Linux OS:
 
-- customize login banner text (job: `login_banner`)
+- customize login banner text (job: `custom_login_banner`)
 - add UNIX users to VM (job: `director_user_add`)
 - add system wide CA certificates (job: `ca_certs`)
 - configure resolv.conf search domain (job: `resolv`)
@@ -40,7 +40,7 @@ In this example, we use BOSH's [Runtime Config](https://bosh.io/docs/runtime-con
 addons:
   - name: director-os-configuration
     jobs:
-    - name: login_banner
+    - name: custom_login_banner
       release: director-os-conf
       properties:
         login_banner:

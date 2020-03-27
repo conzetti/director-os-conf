@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -ex
+
+<% p("banner_files").each do |banner_file| -%>
+cat << 'EOF' > <%= banner_file %>
+<%= p('login_banner.text') %>
+EOF
+<% end %>
