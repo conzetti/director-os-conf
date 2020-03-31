@@ -1,0 +1,18 @@
+---
+name: custom_login_banner
+
+templates:
+  pre-start.sh.erb: bin/pre-start
+
+properties:
+  login_banner.text:
+    description: |
+      Type: String
+      Login banner text
+  banner_files:
+    description: |
+      Type: List
+      Files that need to be rendered with login_banner.text
+    default:
+    - /etc/issue
+    - /etc/issue.net
